@@ -19,7 +19,13 @@
     "requires": {
       "[production]": {
         "auth": "xsuaa"
-      }
-    }
+      },
+      "[development]" : {
+        "db" : {
+          "kind" : "sqlite",
+          "credentials" : { "url": "db.sqlite" }
+        }
+      }      
+    }   
   }
 }
