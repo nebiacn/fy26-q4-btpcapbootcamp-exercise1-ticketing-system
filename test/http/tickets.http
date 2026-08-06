@@ -9,11 +9,11 @@ Content-Type: application/json
     "subject" : "Invoicing doesn't work!",
     "description" : "Starting 3PM today, we can't perform invoicing for all types of deliveries. We need resolution!",
     "priority" : "HIGH",
-    "category" : [ { "name" : "SAP-SD" } ],
-    "agent" : [{ "name" : "Alyssa Reyes" }],
+    "category" : { "name" : "SAP-SD" },
+    "agent" : { "ID" : "7f8c2a64-6d4e-4d5c-9f3a-12b8a4c9e101" },
     "comments" : [
         { 
-            "text" : "Hi Alyssa, I'm directly putting you in Asignee since you worked on this last week."
+            "text" : "Hi Alyssa, I'm directly putting you in Asignee since we already had a call on this earlier."
         }
     ]
 }
