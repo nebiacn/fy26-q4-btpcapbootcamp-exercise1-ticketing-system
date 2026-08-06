@@ -19,8 +19,8 @@ type Priority : String enum {
     urgent = 'URGENT';
 }
 
-entity Categories : cuid, managed {
-    name : String(111);    
+entity Categories : managed {
+    key name : String(111);    
 }
 
 entity Agents : cuid, managed {
@@ -29,11 +29,11 @@ entity Agents : cuid, managed {
 }
 
 entity Tickets : cuid, managed {
-    ticketNumber : String(111);
+    key ticketNumber : String(111);
     subject : String(111);
     description : String(111);
-    status : TicketStatus;
-    priority : Priority;
+    status : TicketStatus default 'OPEN';
+    priority : Priority default 'LOW';
     category : Association to Categories;
     agent : Association to Agents;
     comments : Composition of many Comments
