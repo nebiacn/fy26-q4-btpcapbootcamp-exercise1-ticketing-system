@@ -11,7 +11,8 @@
     "@sap/cds-dk": "^9"
   },
   "scripts": {
-    "start": "cds-serve"
+    "start": "cds-serve",
+    "deploy:local": "cds deploy --to sqlite:db.sqlite"
   },
   "private": true,
   "cds": {
