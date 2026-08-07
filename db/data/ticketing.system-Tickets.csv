@@ -1,0 +1,8 @@
+ID,ticketNumber,subject,description,status,priority,category_name,agent_ID
+43ddac6a-ed95-4533-8976-87f29c7d5382,INC100001,"Sales order creation failing","Users are unable to create sales orders due to a validation error in SAP SD.",OPEN,MEDIUM,SAP-SD,a14d8e95-3f6b-42c7-8d21-9c6e2f4b3303
+93325e04-1d33-4d73-857b-f7ac08f4e20b,INC100002,"Purchase order approval workflow issue","Purchase orders are stuck in approval status and not moving to the next workflow step.",IN_PROGRESS,HIGH,SAP-MM,5e73b2c8-9a0f-4f6d-b1e7-34a9c8d7e404
+8c936432-2d18-4c38-92b9-545bf0fa0510,INC100003,"Incorrect tax calculation in invoices","Tax amount calculation was producing incorrect values for domestic invoices.",RESOLVED,HIGH,SAP-FI,c6b9f0a2-8d43-4a7e-9c5b-77d2a1e6f505
+254a328a-40a8-495b-9004-4e42dc30a3ef,INC100004,"Equipment maintenance notification issue","Maintenance notifications were not being generated automatically.",CLOSED,LOW,SAP-PM,2c9f6b31-1a72-4e8b-91d3-58f3b7a6d202
+5bc8f0ce-a844-4dde-9569-c60c4d2a1714,INC100005,"Delivery document not generated","Outbound delivery document generation fails during order fulfillment.",OPEN,URGENT,SAP-SD,5e73b2c8-9a0f-4f6d-b1e7-34a9c8d7e404
+d26eb088-fde1-42f1-b110-3b22f094fa2f,INC100006,"Billing job failure","Nightly billing job terminated unexpectedly and invoices were not generated.",IN_PROGRESS,URGENT,SAP-SD,7f8c2a64-6d4e-4d5c-9f3a-12b8a4c9e101
+80ffd0db-ac3a-4a56-b735-9f447be5fdc4,INC100007,"Material master synchronization issue","New material records are not replicating correctly between systems.",OPEN,MEDIUM,SAP-MM,2c9f6b31-1a72-4e8b-91d3-58f3b7a6d202
