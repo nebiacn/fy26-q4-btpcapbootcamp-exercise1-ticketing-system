@@ -31,7 +31,7 @@ entity Agents : cuid, managed {
 }
 
 entity Tickets : cuid, managed {
-    key ticketNumber : String(111);
+    ticketNumber : String(111);
     subject : String(111);
     description : String(1000);
     status : TicketStatus default 'OPEN';
