@@ -1,19 +1,390 @@
 @host = http://localhost:4004
-@catalog = {{host}}/odata/v4/catalog
+@service = {{host}}/odata/v4/ticketing
 
-POST {{catalog}}/Tickets
+### 1. OPEN Status Ticket
+POST {{service}}/Tickets
 Content-Type: application/json
 
 {
-    "ticketNumber": "INC#",
-    "subject" : "Invoicing doesn't work!",
-    "description" : "Starting 3PM today, we can't perform invoicing for all types of deliveries. We need resolution!",
-    "priority" : "HIGH",
-    "category" : { "name" : "SAP-SD" },
-    "agent" : { "ID" : "7f8c2a64-6d4e-4d5c-9f3a-12b8a4c9e101" },
-    "comments" : [
-        { 
-            "text" : "Hi Alyssa, I'm directly putting you in Asignee since we already had a call on this earlier."
-        }
-    ]
+  "ticketNumber": "INC100001",
+  "subject": "Sales order creation failing",
+  "description": "Users are unable to create sales orders due to a validation error in SAP SD.",
+  "priority": "MEDIUM",
+  "status": "OPEN",
+  "category": {
+    "name": "SAP-SD"
+  },
+  "agent": {
+    "ID": "a14d8e95-3f6b-42c7-8d21-9c6e2f4b3303"
+  },
+  "comments": [
+    {
+      "text": "Issue reported by the sales team and awaiting investigation."
+    }
+  ]
 }
+
+### 2. IN_PROGRESS Status Ticket
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber": "INC100002",
+  "subject": "Purchase order approval workflow issue",
+  "description": "Purchase orders are stuck in approval status and not moving to the next workflow step.",
+  "priority": "HIGH",
+  "status": "IN_PROGRESS",
+  "category": {
+    "name": "SAP-MM"
+  },
+  "agent": {
+    "ID": "5e73b2c8-9a0f-4f6d-b1e7-34a9c8d7e404"
+  },
+  "comments": [
+    {
+      "text": "Root cause analysis is currently in progress."
+    }
+  ]
+}
+
+### 3. RESOLVED Status Ticket
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber": "INC100003",
+  "subject": "Incorrect tax calculation in invoices",
+  "description": "Tax amount calculation was producing incorrect values for domestic invoices.",
+  "priority": "HIGH",
+  "status": "RESOLVED",
+  "category": {
+    "name": "SAP-FI"
+  },
+  "agent": {
+    "ID": "c6b9f0a2-8d43-4a7e-9c5b-77d2a1e6f505"
+  },
+  "comments": [
+    {
+      "text": "Tax configuration adjusted and validated successfully."
+    }
+  ]
+}
+
+### 4. CLOSED Status Ticket
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber": "INC100004",
+  "subject": "Equipment maintenance notification issue",
+  "description": "Maintenance notifications were not being generated automatically.",
+  "priority": "LOW",
+  "status": "CLOSED",
+  "category": {
+    "name": "SAP-PM"
+  },
+  "agent": {
+    "ID": "2c9f6b31-1a72-4e8b-91d3-58f3b7a6d202"
+  },
+  "comments": [
+    {
+      "text": "Issue resolved and confirmed by the business user."
+    }
+  ]
+}
+
+### 5. SAP-SD Category Ticket
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber": "INC100005",
+  "subject": "Delivery document not generated",
+  "description": "Outbound delivery document generation fails during order fulfillment.",
+  "priority": "URGENT",
+  "status": "OPEN",
+  "category": {
+    "name": "SAP-SD"
+  },
+  "agent": {
+    "ID": "5e73b2c8-9a0f-4f6d-b1e7-34a9c8d7e404"
+  },
+  "comments": [
+    {
+      "text": "Business operations are impacted and require immediate attention."
+    }
+  ]
+}
+
+### 6. Ticket Assigned to Alyssa Reyes
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber": "INC100006",
+  "subject": "Billing job failure",
+  "description": "Nightly billing job terminated unexpectedly and invoices were not generated.",
+  "priority": "URGENT",
+  "status": "IN_PROGRESS",
+  "category": {
+    "name": "SAP-SD"
+  },
+  "agent": {
+    "ID": "7f8c2a64-6d4e-4d5c-9f3a-12b8a4c9e101"
+  },
+  "comments": [
+    {
+      "text": "Assigned to Alyssa Reyes based on previous troubleshooting experience."
+    }
+  ]
+}
+
+### 7. Ticket Assigned to Marco Santos
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber": "INC100007",
+  "subject": "Material master synchronization issue",
+  "description": "New material records are not replicating correctly between systems.",
+  "priority": "MEDIUM",
+  "status": "OPEN",
+  "category": {
+    "name": "SAP-MM"
+  },
+  "agent": {
+    "ID": "2c9f6b31-1a72-4e8b-91d3-58f3b7a6d202"
+  },
+  "comments": [
+    {
+      "text": "Assigned to Marco Santos for investigation."
+    }
+  ]
+}
+
+
+### Helpdesk Service — HTTP tests
+### Run with: cds watch  (or npm start), then use the VS Code "REST Client" extension
+### to send requests individually (the "Send Request" links above each block).
+
+### Fixture IDs (from db/data seed CSVs)
+@ticketOpen      = 43ddac6a-ed95-4533-8976-87f29c7d5382
+@ticketInProgress = 93325e04-1d33-4d73-857b-f7ac08f4e20b
+@ticketResolved  = 8c936432-2d18-4c38-92b9-545bf0fa0510
+@ticketClosed    = 254a328a-40a8-495b-9004-4e42dc30a3ef
+@categorySAPSD = SAP-SD
+@agentAlyssa      = 7f8c2a64-6d4e-4d5c-9f3a-12b8a4c9e101
+@agentMarco      = 2c9f6b31-1a72-4e8b-91d3-58f3b7a6d202
+
+
+############################################
+## Service document / metadata
+############################################
+
+### Service document lists all entity sets and operations
+GET {{service}}/
+
+### $metadata describes the EDM (entities, actions, function)
+GET {{service}}/$metadata
+
+
+############################################
+## Read: Categories / Agents / Comments
+############################################
+
+### List categories
+GET {{service}}/Categories
+
+### List agents
+GET {{service}}/Agents
+
+### List comments for one ticket
+GET {{service}}/Comments?$filter=ticket_ID eq '{{ticketResolved}}'
+
+
+############################################
+## Read: Tickets
+############################################
+
+### List all tickets
+GET {{service}}/Tickets
+
+### Get one ticket by ID
+GET {{service}}/Tickets({{ticketOpen}})
+
+### Expand category, assignee and comments on one ticket
+GET {{service}}/Tickets({{ticketResolved}})?$expand=category,assignee,comments
+
+### Filter: only OPEN tickets, sorted by priority
+GET {{service}}/Tickets?$filter=status eq 'OPEN'&$orderby=priority desc
+
+### Filter: URGENT or HIGH priority, select a subset of fields
+GET {{service}}/Tickets?$filter=priority eq 'URGENT' or priority eq 'HIGH'&$select=ticketNumber,subject,priority
+
+### Top 2 tickets, count included
+GET {{service}}/Tickets?$top=2&$count=true
+
+### Get a ticket that doesn't exist -> 404
+GET {{service}}/Tickets(00000000-0000-0000-0000-000000000000)
+
+
+############################################
+## Create: Tickets
+############################################
+
+### Create a valid ticket
+# @name createTicket
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber": "INC100008",
+  "subject": "Extra space in sales order YABC output.",
+  "description": "There's an extra space in the sales order output for order YABC, can you remove this?",
+  "priority": "LOW",
+  "category_name": "{{categorySAPSD}}",
+  "agent_ID": "{{agentAlyssa}}"
+}
+
+### Create fails: missing category_ID -> 400 "A category is required"
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "ticketNumber" : "INC100009",
+  "subject": "Missing category test",
+  "description": "This ticket is missing a category and should fail validation."
+}
+
+### Create fails: missing subject -> 400 "A subject is required"
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "category_name": "{{categorySAPSD}}"
+}
+
+### Create fails: missing both category and subject -> both errors reported
+POST {{service}}/Tickets
+Content-Type: application/json
+
+{
+  "description": "No subject and no category provided."
+}
+
+
+############################################
+## Update: Tickets
+############################################
+
+### Update priority on an open ticket
+PATCH {{service}}/Tickets({{ticketOpen}})
+Content-Type: application/json
+
+{
+  "priority": "URGENT"
+}
+
+### Re-close an already-closed ticket -> structured error ALREADY_CLOSED
+PATCH {{service}}/Tickets({{ticketClosed}})
+Content-Type: application/json
+
+{
+  "status": "CLOSED"
+}
+
+### Close a currently open ticket via plain PATCH (allowed; only *re*-closing is blocked)
+PATCH {{service}}/Tickets({{ticketInProgress}})
+Content-Type: application/json
+
+{
+  "status": "CLOSED"
+}
+
+
+############################################
+## Delete: Tickets
+############################################
+
+### Delete the ticket created above (chains off createTicket's response)
+@newTicketId = {{createTicket.response.body.ID}}
+DELETE {{service}}/Tickets({{newTicketId}})
+
+### Delete a ticket that doesn't exist -> 404
+DELETE {{service}}/Tickets(00000000-0000-0000-0000-000000000000)
+
+
+############################################
+## Action: closeTicket
+############################################
+
+### Close an open ticket with a resolution -> sets status CLOSED, logs a Comment
+POST {{service}}/Tickets({{ticketOpen}})/TicketingService.closeTicket
+Content-Type: application/json
+
+{
+  "resolution": "Replaced the battery; laptop powers on normally."
+}
+
+### closeTicket fails: no resolution provided -> 400
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.closeTicket
+Content-Type: application/json
+
+{}
+
+### closeTicket fails: ticket already closed -> structured error ALREADY_CLOSED
+POST {{service}}/Tickets({{ticketClosed}})/TicketingService.closeTicket
+Content-Type: application/json
+
+{
+  "resolution": "Trying to close an already-closed ticket."
+}
+
+### closeTicket fails: ticket does not exist -> 404
+POST {{service}}/Tickets(00000000-0000-0000-0000-000000000000)/TicketingService.closeTicket
+Content-Type: application/json
+
+{
+  "resolution": "Ticket does not exist."
+}
+
+
+############################################
+## Action: reassignTicket
+############################################
+
+### Reassign a ticket to a different, valid agent
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.reassignTicket
+Content-Type: application/json
+
+{
+  "agentID": "{{agentMarco}}"
+}
+
+### reassignTicket fails: no agentID provided -> 400
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.reassignTicket
+Content-Type: application/json
+
+{}
+
+### reassignTicket fails: agent does not exist -> 404
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.reassignTicket
+Content-Type: application/json
+
+{
+  "agentID": "00000000-0000-0000-0000-000000000000"
+}
+
+
+############################################
+## Function: getTicketCount
+############################################
+
+### Count all tickets (no status filter)
+GET {{service}}/getTicketCount()
+
+### Count only OPEN tickets
+GET {{service}}/getTicketCount(status='OPEN')
+
+### Count only CLOSED tickets
+GET {{service}}/getTicketCount(status='CLOSED')
