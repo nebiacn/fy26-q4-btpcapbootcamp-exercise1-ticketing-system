@@ -1,8 +1,8 @@
-ID,ticket_ID,ticket_ticketNumber,text
-a781d8b0-a1ce-4697-8455-2d76ab836e1c,43ddac6a-ed95-4533-8976-87f29c7d5382,INC100001,"Issue reported by the sales team and awaiting investigation."
-d0babd5d-fc7c-4cbc-97a5-e3134a16147e,93325e04-1d33-4d73-857b-f7ac08f4e20b,INC100002,"Root cause analysis is currently in progress."
-de55e027-8a15-4483-8185-df41a0589d3c,8c936432-2d18-4c38-92b9-545bf0fa0510,INC100003,"Tax configuration adjusted and validated successfully."
-f822ad98-c2aa-4a6b-9b2b-af1208861cdd,254a328a-40a8-495b-9004-4e42dc30a3ef,INC100004,"Issue resolved and confirmed by the business user."
-3335196d-67ad-4c3a-8d66-992cf89eab0c,5bc8f0ce-a844-4dde-9569-c60c4d2a1714,INC100005,"Business operations are impacted and require immediate attention."
-772674d8-46e1-4481-97e3-18d5f0a48005,d26eb088-fde1-42f1-b110-3b22f094fa2f,INC100006,"Assigned to Alyssa Reyes based on previous troubleshooting experience."
-51c830aa-982a-4fa1-b6ab-a57bffbe99b9,80ffd0db-ac3a-4a56-b735-9f447be5fdc4,INC100007,"Assigned to Marco Santos for investigation."
+ID,ticket_ID,text
+a781d8b0-a1ce-4697-8455-2d76ab836e1c,43ddac6a-ed95-4533-8976-87f29c7d5382,"Issue reported by the sales team and awaiting investigation."
+d0babd5d-fc7c-4cbc-97a5-e3134a16147e,93325e04-1d33-4d73-857b-f7ac08f4e20b,"Root cause analysis is currently in progress."
+de55e027-8a15-4483-8185-df41a0589d3c,8c936432-2d18-4c38-92b9-545bf0fa0510,"Tax configuration adjusted and validated successfully."
+f822ad98-c2aa-4a6b-9b2b-af1208861cdd,254a328a-40a8-495b-9004-4e42dc30a3ef,"Issue resolved and confirmed by the business user."
+3335196d-67ad-4c3a-8d66-992cf89eab0c,5bc8f0ce-a844-4dde-9569-c60c4d2a1714,"Business operations are impacted and require immediate attention."
+772674d8-46e1-4481-97e3-18d5f0a48005,d26eb088-fde1-42f1-b110-3b22f094fa2f,"Assigned to Alyssa Reyes based on previous troubleshooting experience."
+51c830aa-982a-4fa1-b6ab-a57bffbe99b9,80ffd0db-ac3a-4a56-b735-9f447be5fdc4,"Assigned to Marco Santos for investigation."
