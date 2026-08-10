@@ -20,7 +20,6 @@ class TicketingService extends cds.ApplicationService {
 
             // ---- Structured error: block updates that try to "re-close" a closed ticket ----
         this.before('UPDATE', 'Tickets', async (req) => {
-            debugger;
         // TODO: only if req.data.status === 'CLOSED' —
         //   1. look up the ticket's *current* status with
         //      SELECT.one.from(Tickets, req.data.ID).columns('status')
@@ -38,8 +37,6 @@ class TicketingService extends cds.ApplicationService {
         this.on('closeTicket', 'Tickets', async (req) => {
         const { ID } = req.params[0];
         const { resolution } = req.data;
-
-        debugger;
 
         // TODO 1: reject with 400 if `resolution` is missing.
         if (!resolution) {
