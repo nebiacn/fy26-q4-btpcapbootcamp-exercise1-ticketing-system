@@ -172,7 +172,7 @@ Content-Type: application/json
 @ticketInProgress = 93325e04-1d33-4d73-857b-f7ac08f4e20b
 @ticketResolved  = 8c936432-2d18-4c38-92b9-545bf0fa0510
 @ticketClosed    = 254a328a-40a8-495b-9004-4e42dc30a3ef
-@categorySAPSD = 5bc8f0ce-a844-4dde-9569-c60c4d2a1714
+@categorySAPSD = SAP-SD
 @agentAlyssa      = d26eb088-fde1-42f1-b110-3b22f094fa2f
 @agentMarco      = 80ffd0db-ac3a-4a56-b735-9f447be5fdc4
 
@@ -319,7 +319,7 @@ DELETE {{service}}/Tickets(00000000-0000-0000-0000-000000000000)
 ############################################
 
 ### Close an open ticket with a resolution -> sets status CLOSED, logs a Comment
-POST {{service}}/Tickets({{ticketOpen}})/HelpdeskService.closeTicket
+POST {{service}}/Tickets({{ticketOpen}})/TicketingService.closeTicket
 Content-Type: application/json
 
 {
@@ -327,13 +327,13 @@ Content-Type: application/json
 }
 
 ### closeTicket fails: no resolution provided -> 400
-POST {{service}}/Tickets({{ticketInProgress}})/HelpdeskService.closeTicket
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.closeTicket
 Content-Type: application/json
 
 {}
 
 ### closeTicket fails: ticket already closed -> structured error ALREADY_CLOSED
-POST {{service}}/Tickets({{ticketClosed}})/HelpdeskService.closeTicket
+POST {{service}}/Tickets({{ticketClosed}})/TicketingService.closeTicket
 Content-Type: application/json
 
 {
@@ -341,7 +341,7 @@ Content-Type: application/json
 }
 
 ### closeTicket fails: ticket does not exist -> 404
-POST {{service}}/Tickets(00000000-0000-0000-0000-000000000000)/HelpdeskService.closeTicket
+POST {{service}}/Tickets(00000000-0000-0000-0000-000000000000)/TicketingService.closeTicket
 Content-Type: application/json
 
 {
@@ -354,7 +354,7 @@ Content-Type: application/json
 ############################################
 
 ### Reassign a ticket to a different, valid agent
-POST {{service}}/Tickets({{ticketInProgress}})/HelpdeskService.reassignTicket
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.reassignTicket
 Content-Type: application/json
 
 {
@@ -362,13 +362,13 @@ Content-Type: application/json
 }
 
 ### reassignTicket fails: no agentID provided -> 400
-POST {{service}}/Tickets({{ticketInProgress}})/HelpdeskService.reassignTicket
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.reassignTicket
 Content-Type: application/json
 
 {}
 
 ### reassignTicket fails: agent does not exist -> 404
-POST {{service}}/Tickets({{ticketInProgress}})/HelpdeskService.reassignTicket
+POST {{service}}/Tickets({{ticketInProgress}})/TicketingService.reassignTicket
 Content-Type: application/json
 
 {
