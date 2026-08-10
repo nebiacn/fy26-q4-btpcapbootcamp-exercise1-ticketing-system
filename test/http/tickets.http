@@ -238,11 +238,12 @@ POST {{service}}/Tickets
 Content-Type: application/json
 
 {
-  "subject": "Keyboard keys sticking",
-  "description": "Several keys on the laptop keyboard require extra force to register.",
+  "ticketNumber": "INC100008",
+  "subject": "Extra space in sales order YABC output.",
+  "description": "There's an extra space in the sales order output for order YABC, can you remove this?",
   "priority": "LOW",
-  "category_ID": "{{categorySAPSD}}",
-  "assignee_ID": "{{agentAlyssa}}"
+  "category_name": "{{categorySAPSD}}",
+  "agent_ID": "{{agentAlyssa}}"
 }
 
 ### Create fails: missing category_ID -> 400 "A category is required"
@@ -250,7 +251,9 @@ POST {{service}}/Tickets
 Content-Type: application/json
 
 {
-  "subject": "Missing category test"
+  "ticketNumber" : "INC100009",
+  "subject": "Missing category test",
+  "description": "This ticket is missing a category and should fail validation."
 }
 
 ### Create fails: missing subject -> 400 "A subject is required"
@@ -258,7 +261,7 @@ POST {{service}}/Tickets
 Content-Type: application/json
 
 {
-  "category_ID": "{{categorySAPSD}}"
+  "category_name": "{{categorySAPSD}}"
 }
 
 ### Create fails: missing both category and subject -> both errors reported
