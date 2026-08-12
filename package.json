@@ -8,11 +8,18 @@
   },
   "devDependencies": {
     "@cap-js/sqlite": "^2.4",
-    "@sap/cds-dk": "^9"
+    "@sap/cds-dk": "^9",
+    "cds-plugin-ui5": "^0.17.0",
+    "rimraf": "^5.0.5",
+    "mbt": "^1.2.49"
   },
   "scripts": {
     "start": "cds-serve",
-    "deploy:local": "cds deploy --to sqlite:db.sqlite"
+    "deploy:local": "cds deploy --to sqlite:db.sqlite",
+    "watch-ticketing-system": "cds watch --open ticketingsystem.ticketingsystem/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "undeploy": "cf undeploy fy26_btp_cap_bootcamp_ticketing_system --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
   },
   "private": true,
   "cds": {
@@ -20,12 +27,20 @@
       "[production]": {
         "auth": "xsuaa"
       },
-      "[development]" : {
-        "db" : {
-          "kind" : "sqlite",
-          "credentials" : { "url": "db.sqlite" }
+      "[development]": {
+        "db": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": "db.sqlite"
+          }
         }
-      }      
-    }   
-  }
+      }
+    }
+  },
+  "workspaces": [
+    "app/*"
+  ],
+  "sapux": [
+    "app/ticketing-system"
+  ]
 }

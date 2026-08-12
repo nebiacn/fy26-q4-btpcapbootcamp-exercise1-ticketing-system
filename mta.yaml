@@ -1,56 +1,103 @@
 _schema-version: 3.3.0
 ID: fy26_btp_cap_bootcamp_ticketing_system
+description: A simple CAP project.
 version: 1.0.0
-description: "A simple CAP project."
+modules:
+- name: fy26_btp_cap_bootcamp_ticketing_system-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: fy26_btp_cap_bootcamp_ticketing_system-auth
+  - name: fy26_btp_cap_bootcamp_ticketing_system-db
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    instances: 1
+  build-parameters:
+    builder: npm-ci
+- name: fy26_btp_cap_bootcamp_ticketing_system-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: fy26_btp_cap_bootcamp_ticketing_system-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: fy26_btp_cap_bootcamp_ticketing_system-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: fy26_btp_cap_bootcamp_ticketing_system-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - ticketingsystemticketingsystem.zip
+      name: ticketingsystemticketingsystem
+      target-path: resources/
+- name: ticketingsystemticketingsystem
+  type: html5
+  path: app/ticketing-system
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: fy26_btp_cap_bootcamp_ticketing_system-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      oauth2-configuration:
+        credential-types:
+        - binding-secret
+        - x509
+      tenant-mode: dedicated
+      xsappname: fy26_btp_cap_bootcamp_ticketing_system-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: fy26_btp_cap_bootcamp_ticketing_system-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: fy26_btp_cap_bootcamp_ticketing_system-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: fy26_btp_cap_bootcamp_ticketing_system-html5-service
+    service-plan: app-host
+- name: fy26_btp_cap_bootcamp_ticketing_system-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: false
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: fy26_btp_cap_bootcamp_ticketing_system-destination-service
+    service-plan: lite
 parameters:
+  deploy_mode: html5-repo
   enable-parallel-deployments: true
 build-parameters:
   before-all:
-    - builder: custom
-      commands:
-        - npm ci
-        - npx cds build --production
-modules:
-  - name: fy26_btp_cap_bootcamp_ticketing_system-srv
-    type: nodejs
-    path: gen/srv
-    parameters:
-      instances: 1
-      buildpack: nodejs_buildpack
-    build-parameters:
-      builder: npm-ci
-    provides:
-      - name: srv-api # required by consumers of CAP services (e.g. approuter)
-        properties:
-          srv-url: ${default-url}
-    requires:
-      - name: fy26_btp_cap_bootcamp_ticketing_system-auth
-      - name: fy26_btp_cap_bootcamp_ticketing_system-db
-
-  - name: fy26_btp_cap_bootcamp_ticketing_system-db-deployer
-    type: hdb
-    path: gen/db
-    parameters:
-      buildpack: nodejs_buildpack
-    requires:
-      - name: fy26_btp_cap_bootcamp_ticketing_system-db
-
-resources:
-  - name: fy26_btp_cap_bootcamp_ticketing_system-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application
-      path: ./xs-security.json
-      config:
-        xsappname: fy26_btp_cap_bootcamp_ticketing_system-${org}-${space}
-        tenant-mode: dedicated
-        oauth2-configuration:
-          credential-types:
-            - "binding-secret"
-            - "x509"
-  - name: fy26_btp_cap_bootcamp_ticketing_system-db
-    type: com.sap.xs.hdi-container
-    parameters:
-      service: hana
-      service-plan: hdi-shared
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production
