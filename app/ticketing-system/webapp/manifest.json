@@ -127,7 +127,14 @@
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/Tickets"
+              "contextPath": "/Tickets",
+              "controlConfiguration": {
+                "comments/@com.sap.vocabularies.UI.v1.LineItem#TicketComments": {
+                  "tableSettings": {
+                    "type": "ResponsiveTable"
+                  }
+                }
+              }
             }
           }
         }

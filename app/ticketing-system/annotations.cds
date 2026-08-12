@@ -5,33 +5,28 @@ annotate service.Tickets with @(
         Data : [
             {
                 $Type : 'UI.DataField',
-                Label : 'ticketNumber',
+                Label : 'Ticket',
                 Value : ticketNumber,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'subject',
+                Label : 'Subject',
                 Value : subject,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'description',
+                Label : 'Description',
                 Value : description,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'status',
+                Label : 'Status',
                 Value : status,
             },
             {
                 $Type : 'UI.DataField',
-                Label : 'priority',
+                Label : 'Priority',
                 Value : priority,
-            },
-            {
-                $Type : 'UI.DataField',
-                Label : 'category_name',
-                Value : category_name,
             },
         ],
     },
@@ -42,69 +37,149 @@ annotate service.Tickets with @(
             Label : 'General Information',
             Target : '@UI.FieldGroup#GeneratedGroup',
         },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Ticket Comments',
+            ID : 'TicketComments',
+            Target : 'comments/@UI.LineItem#TicketComments',
+        },
     ],
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'ticketNumber',
+            Label : 'Ticket Number',
             Value : ticketNumber,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'subject',
+            Label : 'Subject',
             Value : subject,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'description',
-            Value : description,
-        },
-        {
-            $Type : 'UI.DataField',
-            Label : 'status',
+            Label : 'Status',
             Value : status,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'priority',
+            Label : 'Priority',
             Value : priority,
         },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Category',
+            Value : category_name,
+        },
+        {
+            $Type : 'UI.DataField',
+            Label : 'Assigned Agent',
+            Value : agent.name,
+        },
     ],
+    UI.SelectionFields : [
+        status,
+        priority,
+        category_name,
+        agent_ID,
+    ],
+    UI.HeaderInfo : {
+        Title : {
+            $Type : 'UI.DataField',
+            Value : ticketNumber,
+        },
+        TypeName : 'Ticket',
+        TypeNamePlural : 'Tickets',
+        Description : {
+            $Type : 'UI.DataField',
+            Value : subject,
+        },
+    },
 );
 
 annotate service.Tickets with {
-    category @Common.ValueList : {
-        $Type : 'Common.ValueListType',
-        CollectionPath : 'Categories',
-        Parameters : [
-            {
-                $Type : 'Common.ValueListParameterInOut',
-                LocalDataProperty : category_name,
-                ValueListProperty : 'name',
-            },
-        ],
-    }
+    category @(
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Categories',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : category_name,
+                    ValueListProperty : 'name',
+                },
+            ],
+        },
+        Common.Label : 'Category',
+    )
 };
 
 annotate service.Tickets with {
-    agent @Common.ValueList : {
-        $Type : 'Common.ValueListType',
-        CollectionPath : 'Agents',
-        Parameters : [
-            {
-                $Type : 'Common.ValueListParameterInOut',
-                LocalDataProperty : agent_ID,
-                ValueListProperty : 'ID',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'name',
-            },
-            {
-                $Type : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'email',
-            },
-        ],
-    }
+    agent @(
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Agents',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : agent_ID,
+                    ValueListProperty : 'ID',
+                    
+                },       
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',                                    
+                    ValueListProperty : 'email',
+                },
+            ],
+        },
+        Common.Label : 'Assigned Agent',
+        Common.ExternalID : agent.name,
+
+    )
 };
+
+annotate service.Tickets with {
+    status @Common.Label : 'Status'
+};
+
+annotate service.Tickets with {
+    priority @Common.Label : 'Priority'
+};
+
+annotate service.Tickets with {
+    ticketNumber @Common.Label : 'Ticket Number'
+};
+
+annotate service.Tickets with {
+    subject @Common.Label : 'Subject'
+};
+
+annotate service.Agents with {
+    name @Common.Label : 'Name'
+};
+
+annotate service.Agents with {
+    email @Common.Label : 'Email'
+};
+
+annotate service.Comments with {
+    text @Common.Label : 'Comment'
+};
+
+annotate service.Comments with @(
+    UI.LineItem #TicketComments : [
+        {
+            $Type : 'UI.DataField',
+            Value : ticket.ticketNumber,
+            Label : 'Ticket',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : createdAt,
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : ticket.comments.text,
+        },
+    ]
+);
 
