@@ -1,4 +1,5 @@
 using TicketingService as service from '../../srv/ticketing-service';
+
 annotate service.Tickets with @(
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
@@ -94,6 +95,13 @@ annotate service.Tickets with @(
             Value : subject,
         },
     },
+    UI.Identification : [
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'TicketingService.closeTicket',
+            Label : 'closeTicket',
+        },
+    ],
 );
 
 annotate service.Tickets with {
