@@ -34,15 +34,24 @@ entity Tickets : cuid, managed {
     ticketNumber : String(111);
     subject : String(111);
     description : String(1000);
-    status : TicketStatus default 'OPEN';
-    priority : Priority default 'LOW';
+    status : Association to Statuses;
+    priority : Association to Priorities;
     category : Association to Categories;
     agent : Association to Agents;
     comments : Composition of many Comments
                 on comments.ticket = $self;
 }
 
+@readonly
 entity Comments : cuid, managed {
     ticket : Association to Tickets;
     text : String(1000);
+}
+
+entity Priorities : managed {
+    key name : String(111);
+}
+
+entity Statuses : managed {
+    key name : String(111);
 }

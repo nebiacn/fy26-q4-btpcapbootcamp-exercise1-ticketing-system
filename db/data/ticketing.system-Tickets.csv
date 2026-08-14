@@ -1,4 +1,4 @@
-ID,ticketNumber,subject,description,status,priority,category_name,agent_ID
+ID,ticketNumber,subject,description,status_name,priority_name,category_name,agent_ID
 43ddac6a-ed95-4533-8976-87f29c7d5382,INC100001,"Sales order creation failing","Users are unable to create sales orders due to a validation error in SAP SD.",OPEN,MEDIUM,SAP-SD,a14d8e95-3f6b-42c7-8d21-9c6e2f4b3303
 93325e04-1d33-4d73-857b-f7ac08f4e20b,INC100002,"Purchase order approval workflow issue","Purchase orders are stuck in approval status and not moving to the next workflow step.",IN_PROGRESS,HIGH,SAP-MM,5e73b2c8-9a0f-4f6d-b1e7-34a9c8d7e404
 8c936432-2d18-4c38-92b9-545bf0fa0510,INC100003,"Incorrect tax calculation in invoices","Tax amount calculation was producing incorrect values for domestic invoices.",RESOLVED,HIGH,SAP-FI,c6b9f0a2-8d43-4a7e-9c5b-77d2a1e6f505

@@ -1,4 +1,5 @@
 using TicketingService as service from '../../srv/ticketing-service';
+
 annotate service.Tickets with @(
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
@@ -21,12 +22,24 @@ annotate service.Tickets with @(
             {
                 $Type : 'UI.DataField',
                 Label : 'Status',
-                Value : status,
+                Value : status_name,
+                Criticality : status_criticality,
             },
             {
                 $Type : 'UI.DataField',
                 Label : 'Priority',
-                Value : priority,
+                Value : priority_name,
+                Criticality : priority_criticality,
+                CriticalityRepresentation : #WithoutIcon,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : agent_ID,
+                Label : 'Asignee',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : category_name,
             },
         ],
     },
@@ -47,38 +60,35 @@ annotate service.Tickets with @(
     UI.LineItem : [
         {
             $Type : 'UI.DataField',
-            Label : 'Ticket Number',
             Value : ticketNumber,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Subject',
             Value : subject,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Status',
-            Value : status,
+            Value : status_name,
+            Criticality : status_criticality,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Priority',
-            Value : priority,
+            Value : priority_name,
+            Criticality : priority_criticality,
+            CriticalityRepresentation : #WithoutIcon,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Category',
             Value : category_name,
         },
         {
             $Type : 'UI.DataField',
-            Label : 'Assigned Agent',
             Value : agent.name,
         },
     ],
     UI.SelectionFields : [
-        status,
-        priority,
+        status_name,
+        priority_name,
         category_name,
         agent_ID,
     ],
@@ -94,10 +104,51 @@ annotate service.Tickets with @(
             Value : subject,
         },
     },
+    UI.Identification : [
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'TicketingService.closeTicket',
+            Label : 'closeTicket',
+        },
+    ],
 );
 
 annotate service.Tickets with {
-    category @(
+    ticketNumber @Common.Label : 'Ticket Number';
+    subject @Common.Label : 'Subject';
+    description @Common.Label : 'Description';
+    status @(   
+        Common.Label : 'Status',
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Statuses',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : status_name,
+                    ValueListProperty : 'name',
+                },
+            ],
+        },
+        Common.ValueListWithFixedValues : true,
+    );    
+    priority @(   
+        Common.Label : 'Priority',
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Priorities',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : priority_name,
+                    ValueListProperty : 'name',
+                },
+            ],
+        },
+        Common.ValueListWithFixedValues : true,
+    );    
+    category @(   
+        Common.Label : 'Category',
         Common.ValueList : {
             $Type : 'Common.ValueListType',
             CollectionPath : 'Categories',
@@ -109,12 +160,10 @@ annotate service.Tickets with {
                 },
             ],
         },
-        Common.Label : 'Category',
-    )
-};
-
-annotate service.Tickets with {
+        Common.ValueListWithFixedValues : true,
+    );
     agent @(
+        Common.Label : 'Assigned Agent',
         Common.ValueList : {
             $Type : 'Common.ValueListType',
             CollectionPath : 'Agents',
@@ -131,47 +180,19 @@ annotate service.Tickets with {
                 },
             ],
         },
-        Common.Label : 'Assigned Agent',
+        Common.ValueListWithFixedValues : true,
         Common.ExternalID : agent.name,
-
     )
 };
 
-annotate service.Tickets with {
-    status @Common.Label : 'Status'
-};
-
-annotate service.Tickets with {
-    priority @Common.Label : 'Priority'
-};
-
-annotate service.Tickets with {
-    ticketNumber @Common.Label : 'Ticket Number'
-};
-
-annotate service.Tickets with {
-    subject @Common.Label : 'Subject'
-};
 
 annotate service.Agents with {
-    name @Common.Label : 'Name'
-};
-
-annotate service.Agents with {
+    name @Common.Label : 'Name';
     email @Common.Label : 'Email'
-};
-
-annotate service.Comments with {
-    text @Common.Label : 'Comment'
 };
 
 annotate service.Comments with @(
     UI.LineItem #TicketComments : [
-        {
-            $Type : 'UI.DataField',
-            Value : ticket.ticketNumber,
-            Label : 'Ticket',
-        },
         {
             $Type : 'UI.DataField',
             Value : createdAt,
@@ -182,4 +203,8 @@ annotate service.Comments with @(
         },
     ]
 );
+
+annotate service.Comments with {
+    text @Common.Label : 'Comment'
+};
 
