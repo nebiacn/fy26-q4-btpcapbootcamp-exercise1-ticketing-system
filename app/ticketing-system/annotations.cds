@@ -23,11 +23,14 @@ annotate service.Tickets with @(
                 $Type : 'UI.DataField',
                 Label : 'Status',
                 Value : status_name,
+                Criticality : status_criticality,
             },
             {
                 $Type : 'UI.DataField',
                 Label : 'Priority',
                 Value : priority_name,
+                Criticality : priority_criticality,
+                CriticalityRepresentation : #WithoutIcon,
             },
             {
                 $Type : 'UI.DataField',
@@ -66,10 +69,13 @@ annotate service.Tickets with @(
         {
             $Type : 'UI.DataField',
             Value : status_name,
+            Criticality : status_criticality,
         },
         {
             $Type : 'UI.DataField',
             Value : priority_name,
+            Criticality : priority_criticality,
+            CriticalityRepresentation : #WithoutIcon,
         },
         {
             $Type : 'UI.DataField',
