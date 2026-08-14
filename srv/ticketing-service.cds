@@ -19,6 +19,8 @@ service TicketingService {
     };
 
     entity Comments as projection on db.Comments;
+    entity Priorities as projection on db.Priorities;
+    entity Statuses as projection on db.Statuses;
 
     function getTicketCount(status: db.TicketStatus) returns Integer;
 }
